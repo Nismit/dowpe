@@ -48,6 +48,7 @@ In `docker-compose.yml`, you might need to change some variables.
 | WP_EMAIL      | example@example.com  |
 
 **Mixed with MySQL(Mariadb) Variables**
+
 | Variables                         | Example Value       |
 | -------------                     | ------------- |
 | MYSQL_ROOT_PASSWORD               | password        |
