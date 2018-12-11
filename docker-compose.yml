@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  mysql:
+    image: mariadb:latest
+    ports:
+      - "13306:3306"
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: dowpe_user
+      MYSQL_PASSWORD: dowpe_password
+
+  php:
+    image: nismit/dowpe-php:latest
+    volumes:
+      - ./public_html/:/var/www/html
+    depends_on:
+      - mysql
+    environment:
+        MYSQL_ROOT_PASSWORD: password
+        MYSQL_HOST: mysql
+        MYSQL_DATABASE: wordpress
+        MYSQL_USER: dowpe_user
+        MYSQL_PASSWORD: dowpe_password
+        MYSQL_PREFIX: ""
+        # WordPress Variable
+        WP_VERSION: latest
+        WP_LOCALE: en_US
+        WP_THEME: twentyseventeen
+        WP_PLUGINS: wp-multibyte-patch duplicate-post
+        WP_URL: localhost\:8080
+        WP_TITLE: Dowpe-WordPress
+        WP_ADMIN: admin
+        WP_PASSWORD: password
+        WP_EMAIL: example@example.com
+
+  server:
+    image: nginx:1.15.7-alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/default.conf:/etc/nginx/conf.d/default.conf
+      - ./public_html/:/var/www/html
+    depends_on:
+      - mysql
+      - php
