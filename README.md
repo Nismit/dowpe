@@ -13,7 +13,7 @@ Docker WordPress Environment
 If you have already installed `docker-compose`, you just need only 3 steps to run WordPress!
 
 ```
-git clone 
+git clone git@github.com:Nismit/dowpe.git
 cd dowpe
 docker-compose up
 ```
